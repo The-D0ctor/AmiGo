@@ -1,26 +1,13 @@
 //
-//  ActivityPicker.swift
+//  QuizzListView.swift
 //  AmiGo
 //
-//  Created by Sébastien Rochelet on 30/10/2024.
+//  Created by Sébastien Rochelet on 29/10/2024.
 //
 
 import SwiftUI
 
-struct ActivityPicker: View {
-    let riddles: [ActivityGuess] = [
-        ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique"),
-        ActivityGuess(question: "Pourquoi les plongeurs plongent-ils en arrière ?", answers: [], solution: "Parce que s’ils plongeaient en avant ils tomberaient dans le bateau.", theme: "Plongeur"),
-        ActivityGuess(question: "Que se disent deux bonhommes de neige qui se croisent ?", answers: [], solution: "« Tu trouves pas que ça sent la carotte aujourd’hui ? »", theme: "Bonhomme de neige"),
-        ActivityGuess(question: "Comment le boulanger range ses pains au chocolat ?", answers: [], solution: "Dans l’ordre des croissants.", theme: "Boulanger"),
-        ActivityGuess(question: "Quatre éléphants sont dans une voiture. Lequel conduit ?", answers: [], solution: "Celui qui a le permis.", theme: "Éléphant"),
-        ActivityGuess(question: "Qu'est ce qui a 118 yeux et 7 dents ?", answers: [], solution: "Un autobus rempli de personnes âgées.", theme: "Yeux et dents"),
-        ActivityGuess(question: "Qu'est-ce qu'on trouve dans un nez bien propre ?", answers: [], solution: "Des empreintes digitales.", theme: "Nez"),
-        ActivityGuess(question: "Combien de fois des gens se sont jetés du haut de la Tour Eiffel ?", answers: [], solution: "Une seule fois chacun.", theme: "Tour Eiffel"),
-        ActivityGuess(question: "Pourquoi un fermier ne peut se marier avec une fille prénommée Claire ?", answers: [], solution: "Parce que la ferme tuerait Claire.", theme: "Fermier"),
-        ActivityGuess(question: "Quel animal a trois bosses ?", answers: [], solution: "Un chameau qui s’est cogné.", theme: "Animal"),
-    ]
-    
+struct QuizzesListView: View {
     let quizzes: [ActivityGuess] = [
         ActivityGuess(question: "Les chauves-souris vampires se nourrissent exclusivement de sang. Vrai ou faux ?", answers: [
             ActivityGuessAnswer(answer: "Vrai", isCorrect: true),
@@ -64,49 +51,32 @@ struct ActivityPicker: View {
         ], solution: "L'abeille est petite et trapue alors que la guêpe est plus profilée, longue et possède un abdomen séparé du thorax d'où l'expression « avoir une taille de guêpe ».", theme: "Guêpes"),
     ]
     
-    @Binding var selection: Activity
-    @Binding var random: Bool
-    @State var selectedRiddle: ActivityGuess
-    @State var randomRiddle: Bool = false
+    @State var showModal: Bool = false
+    @State private var selectedQuizz: ActivityGuess
     
-    init(selection: Binding<Activity>, random: Binding<Bool>) {
-        self._selection = selection
-        self._random = random
-        self.selectedRiddle = riddles[0]
+    init() {
+        self.selectedQuizz = quizzes[0]
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                ForEach(Activity.allCases, id: \.self) { activity in
-                    Button {
-                        selection = activity
-                    } label: {
-                        Text(activity.rawValue)
-                            .padding()
-                            .background(selection == activity ? Color.darkOrange : .gray)
-                            .clipShape(.rect(cornerRadius: 10))
-                            .foregroundStyle(.white)
-                            .font(.custom("Poppins", size: 14))
+        ScrollView {
+            VStack {
+                ForEach(quizzes) { quizz in
+                    RoundedCornerBorderButton(text: quizz.theme) {
+                        selectedQuizz = quizz
+                        showModal = true
                     }
                 }
-            }.padding(.horizontal)
-            TabView(selection: $selection) {
-                RiddlesListView(riddles: riddles, selectedRidle: $selectedRiddle, random: $randomRiddle).tag(Activity.riddle)
-                QuizzesListView().tag(Activity.quizz)
-                GamesListView().tag(Activity.game)
-                SubjectConvsView().tag(Activity.subjectConv)
             }
-            .tabViewStyle(.page(indexDisplayMode: .always))
-            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-            .animation(.easeInOut, value: selection)
-            .onChange(of: random) {
-                print(random)
-                if (random) {
-                    if (selection == .riddle) {
-                        selectedRiddle = riddles.randomElement()!
-                        randomRiddle = true
-                    }
+            .font(.custom("Poppins", size: 14))
+            .fontWeight(.medium)
+            .padding()
+            .sheet(isPresented: $showModal) {
+                ZStack {
+                    Color.offWhite
+                    QuizzModalView(quizz: $selectedQuizz, showModal: $showModal)
+                        .presentationDetents([.fraction(0.8)])
+                        .padding(30)
                 }
             }
         }
@@ -114,5 +84,5 @@ struct ActivityPicker: View {
 }
 
 #Preview {
-    ActivityPicker(selection: .constant(.quizz), random: .constant(false))
+    QuizzesListView()
 }

@@ -9,15 +9,17 @@ import SwiftUI
 
 struct ActivitiesTabView: View {
     @State var selectedActivity: Activity = .riddle
+    @State var random: Bool = false
     
     var body: some View {
         ZStack {
             Color.offWhite.ignoresSafeArea(edges: .top)
             VStack {
-                ActivityPicker(selection: $selectedActivity)
+                ActivityPicker(selection: $selectedActivity, random: $random)
                     .frame(maxHeight: .infinity)
                 Button {
                     selectedActivity = Activity.allCases.randomElement()!
+                    random = true
                 } label: {
                     Text("On choisit pour toi")
                         .foregroundStyle(.white)

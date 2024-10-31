@@ -1,19 +1,22 @@
 //
-//  SwiftUIView extracte.swift
+//  LamaModal1.swift
 //  AmiGo
 //
-//  Created by Apprenant173 on 30/10/2024.
+//  Created by Carole TREM on 31/10/2024.
 //
 
 import SwiftUI
 
-struct LlamaView: View {
+struct LamaModal: View {
 
     var llama: String
     var information: String
     var image: String
     var petitText:String = ""
+    @Binding var dissmissModal : Bool
+    
 var body: some View {
+    
         VStack{
             Image(.logoAmiGo)
             Spacer()
@@ -35,11 +38,19 @@ var body: some View {
                 .frame(width: 100,height:100)
             Spacer()
             Text(petitText)
-        
+            
+            Button {
+                dissmissModal.toggle()
+            } label: {
+                Text("OK")
+                    .foregroundStyle(.darkOrange)
+                    .font(.custom("Poppins-bold", size: 30))
+            }
+
         }
     }
 }
 
 #Preview {
-    LlamaView(llama: "LlamaSpeaking", information: "Tu n'as pas encore trouve ton AmiGo,choisis en 3 parmi la liste", image: "hand.rays")
+    LamaModal(llama: "LlamaSmile", information: "Tu n'as pas encore trouvé ton AmiGo,choisis en 3 parmi la liste", image: "hand.rays", dissmissModal: .constant(true))
 }

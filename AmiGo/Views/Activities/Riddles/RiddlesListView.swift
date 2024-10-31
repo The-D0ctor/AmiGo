@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RiddlesListView: View {
-    let riddles: [ActivityGuess] = [
+    let riddles: [ActivityGuess]/* = [
         ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique"),
         ActivityGuess(question: "Pourquoi les plongeurs plongent-ils en arrière ?", answers: [], solution: "Parce que s’ils plongeaient en avant ils tomberaient dans le bateau.", theme: "Plongeur"),
         ActivityGuess(question: "Que se disent deux bonhommes de neige qui se croisent ?", answers: [], solution: "« Tu trouves pas que ça sent la carotte aujourd’hui ? »", theme: "Bonhomme de neige"),
@@ -19,14 +19,16 @@ struct RiddlesListView: View {
         ActivityGuess(question: "Combien de fois des gens se sont jetés du haut de la Tour Eiffel ?", answers: [], solution: "Une seule fois chacun.", theme: "Tour Eiffel"),
         ActivityGuess(question: "Pourquoi un fermier ne peut se marier avec une fille prénommée Claire ?", answers: [], solution: "Parce que la ferme tuerait Claire.", theme: "Fermier"),
         ActivityGuess(question: "Quel animal a trois bosses ?", answers: [], solution: "Un chameau qui s’est cogné.", theme: "Animal"),
-    ]
+    ]*/
     
     @State var showModal: Bool = false
-    @State private var selectedRidle: ActivityGuess
+    @Binding var selectedRidle: ActivityGuess
+    @Binding var random: Bool
     
-    init() {
+    /*init(random: Binding<Bool>) {
         self.selectedRidle = riddles[0]
-    }
+        self._random = random
+    }*/
     
     var body: some View {
         ScrollView {
@@ -44,9 +46,17 @@ struct RiddlesListView: View {
             .sheet(isPresented: $showModal) {
                 ZStack {
                     Color.offWhite
-                    RiddleModalView(riddle: $selectedRidle)
+                    RiddleModalView(riddle: $selectedRidle, showModal: $showModal)
                         .presentationDetents([.medium])
-                        .padding(50)
+                        .padding(30)
+                }
+            }
+            .onChange(of: random) {
+                print(random)
+                if random {
+                    //selectedRidle = riddles.randomElement()!
+                    showModal = true
+                    //random.toggle()
                 }
             }
         }
@@ -54,5 +64,6 @@ struct RiddlesListView: View {
 }
 
 #Preview {
-    RiddlesListView()
+    RiddlesListView(riddles: [
+        ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")], selectedRidle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")), random: .constant(false))
 }

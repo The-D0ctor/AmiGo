@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RiddleModalView: View {
     @Binding var riddle: ActivityGuess
-    @State var state: RiddleState = .question
+    @State var state: ActivityGuessState = .question
+    @Binding var showModal: Bool
     
     var body: some View {
         Button {
@@ -17,7 +18,7 @@ struct RiddleModalView: View {
             case .question:
                 state = .answer
             case .answer:
-                state = .question
+                showModal = false
             }
         } label: {
             switch state {
@@ -31,7 +32,7 @@ struct RiddleModalView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(.turquoise, lineWidth: 1)
                     )
-
+                
             case .answer:
                 Text(riddle.solution)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -50,9 +51,24 @@ struct RiddleModalView: View {
         .animation(.bouncy, value: state)
         .font(.custom("Poppins", size: 20))
         .fontWeight(.semibold)
+        .overlay(alignment: .topTrailing) {
+            Button {
+                showModal = false
+            } label: {
+                Image(systemName: "multiply.circle")
+                    .resizable()
+                    .scaledToFit()
+                    .symbolEffect(.bounce, value: state)
+                    .frame(width: 50, height: 50)
+                    .foregroundStyle(.black)
+                    .background(.turquoise)
+                    .clipShape(.circle)
+            }
+            .offset(x: 25, y: -25)
+        }
     }
 }
 
 #Preview {
-    RiddleModalView(riddle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")))
+    RiddleModalView(riddle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")), showModal: .constant(true))
 }

@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct ActivityGuessAnswer {
+struct ActivityGuessAnswer: Identifiable {
+    let id = UUID()
     let answer: String
     let isCorrect: Bool
 }

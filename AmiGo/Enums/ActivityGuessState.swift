@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RiddleState: Double, Hashable, CaseIterable {
+enum ActivityGuessState: Double, Hashable, CaseIterable {
     case question = 0
     case answer = 180
 }

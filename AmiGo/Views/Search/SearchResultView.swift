@@ -15,9 +15,10 @@ struct SearchResultView: View {
     @State var nbAmiGos : Int = 0
     @State var bulleAide: Bool
     
-    
+    @State var showModal1 : Bool = true
+    @State var showModal2 : Bool = false
+
     var body: some View {
-        
         
         ZStack {
             
@@ -38,10 +39,16 @@ struct SearchResultView: View {
                     
                     Text("\(nbAmiGos) AmiGos selectionnés")
                     
+                        .onChange(of:nbAmiGos) {
+                            if nbAmiGos >= 3 {showModal2 = true
+                            }
+                        }
+
+                
                     ScrollView{
                         
                         ForEach(usersTrip) { eachUserTrip in
-                            AmiGoResults(userTrip: eachUserTrip, nbAmiGos: $nbAmiGos)
+                            AmiGoResults(userTrip: eachUserTrip, nbAmiGos: $nbAmiGos, showModal2: $showModal2)
                         }
                     }
                 }.padding()
@@ -53,13 +60,17 @@ struct SearchResultView: View {
         } .toolbar {
             ToolbarItem(placement: .principal) {
                 Image("LogoAmiGo")
-                
             }
-            
-            
+
         }
-        
-        
+        .sheet(isPresented: $showModal1) {
+            
+            LamaModal(llama: "LlamaSmile", information: "Tu n'as pas encore trouvé ton AmiGo,choisis en 3 parmi la liste", image: "hand.rays", dissmissModal: $showModal1)
+        }
+        .sheet(isPresented: $showModal2) {
+            
+            LamaModal(llama: "LlamaSpeaking", information: "Les AmiGos ont reçu ta demande. \r Attendons leur retour ...", image: "hourglass", dissmissModal: $showModal2)
+        }
     }
 }
 
@@ -72,6 +83,7 @@ struct AmiGoResults: View {
     
     var userTrip : Trip
     @Binding var nbAmiGos : Int
+    @Binding var showModal2 : Bool
     
     var body: some View {
         
@@ -122,8 +134,9 @@ struct AmiGoResults: View {
                         .frame(height: 50)
                 }
                 
-                Button{
+                Button {
                     nbAmiGos += 1
+                    
                 }label:{
                     Text("Contacte ton AmiGo")
                         .frame(width: 70, height: 70)
@@ -171,47 +184,3 @@ struct DepartArrivee: View {
     }
 }
 
-//struct AideLamaExtractedView: View {
-//
-//    var textAide: String
-//    @Binding var bulleAide: Bool
-//    var imageLamaBoutton: String
-//
-//    var body: some View {
-//        HStack {
-//
-//            if bulleAide {
-//                ZStack {
-//
-//                    SpeechBubble(radius: 20)
-//                        .fill(Color.white)
-//                        .stroke(Color.gray, lineWidth: 3)
-//                        .frame(maxWidth: .infinity)
-//                        .padding(.horizontal)
-//
-//                    Text(textAide)
-//                        .multilineTextAlignment(.leading)
-//                        .font(.custom("Poppins", size: 14))
-//                        .fontWeight(.light)
-//                        .frame(width: 200, height: 100)
-//                }
-//            }
-//            else {
-//                Spacer()
-//            }
-//            Button {
-//                bulleAide.toggle()
-//            } label: {
-//                Image(imageLamaBoutton)
-//                    .resizable()
-//                    .frame(width: 90, height: 90)
-//                    .rotationEffect(.degrees(-25))
-//            }
-//        }.padding(.horizontal)
-//    }
-//}
-//
-//
-//#Preview {
-//    AideLamaExtractedView(textAide: "Aide-moi", bulleAide: .constant(true), imageLamaBoutton: "LlamaHappy")
-//}

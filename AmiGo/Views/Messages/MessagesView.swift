@@ -9,15 +9,14 @@ import SwiftUI
 
 struct MessagesView: View {
 @State var message = ""
+@State var isClosed = true
+@State var isOpened = true
+
+
     //l'objet d'état est le propriétaire de l'objet
 @StateObject var allMessages = Messageries()
     var body: some View {
-        /*ZStack {
-         Color.offWhite.ignoresSafeArea(edges: .top
-         Text("Messages")
-         .font(.custom("Poppins", size: 16))
-         .fontWeight(.bold)
-         }*/
+       
             VStack {
                 
                 ZStack {
@@ -63,8 +62,33 @@ struct MessagesView: View {
                             .padding(.top, 25)
                         }
                     })
+                    Button {
+                        //centralSymbol = "smiley"
+                    } label: {
+                        Text("Bravo tu as retrouvé ton amigo")
+                            .frame(width: 150, height: 60)
+                            .background(Color("Turquoise"))
+                            .cornerRadius(15)
+                            .foregroundColor(.white)
+                            .padding()
+                        
+                           
+
+                    }
+                    Button("") {
+                                    isClosed = false
+                                }
+                                .fullScreenCover(isPresented: $isClosed) {
+                                    ModalView(isClosed: $isClosed)
+                                }
+                                .sheet(isPresented: $isClosed) { // 2. Afficher la modale avec .sheet()
+                                            ModalView(isClosed: $isClosed) // Vue modale à afficher
+                                }
+                    
                     HStack (spacing: 15){
+                        
                         HStack(spacing: 15) {
+                            
                             TextField("message", text: self.$message)
                             
                             Button(action: {}, label: {
@@ -111,6 +135,8 @@ struct MessagesView: View {
                 .background(Color("OffWhite"))
                 .clipShape(RoundedShape())
             }
+            
+            
             //.edgesIgnoringSafeArea(.bottom)
             .background(Color("AccentColor").edgesIgnoringSafeArea(.top))
         }
@@ -201,50 +227,80 @@ class Messageries : ObservableObject {
 #Preview {
     MessagesView()
 }
-struct AideLamaExtractedView: View {
-    
-    var textAide: String
-    @Binding var bulleAide: Bool
-    var imageLamaBoutton: String
-    
+
+
+
+struct ModalView: View{
+    @Binding var isClosed: Bool
     var body: some View {
-        HStack {
-            
-            if bulleAide {
-                ZStack {
+            ZStack {
+                Color.offWhite.ignoresSafeArea(edges: .top)
+                VStack(alignment:.center){
+                    Image(.logoAmiGo)
+                    Spacer()
+                    ZStack{
+                        Image(.llamaWink)
+                            .resizable()
+                            .frame(width: 300, height: 300)
+                    }
                     
-                    SpeechBubble()
-                        .fill(Color.white)
-                        .stroke(Color.gray, lineWidth: 3)
-                        .frame(height: 100)
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal)
                     
-                    Text(textAide)
-                        .padding()
-                        .multilineTextAlignment(.center)
-                        .font(.custom("Poppins", size: 20))
-                        .fontWeight(.light)
-                        .frame(width: 200, height: 120)
+        Text("Félicitations ta demanda de amiGo à été aceptée")
+                        .font(.title2)
+                        .italic()
+                        .frame(width: 300)
+                        Spacer()
+                    Button("fermer") {
+                                   isClosed = false
+                                }
+                              
+                   
+                    
+                    
                     
                 }
             }
-            else {
-                Spacer()
-            }
-            Button {
-                bulleAide.toggle()
-            } label: {
-                Image(imageLamaBoutton)
-                    .resizable()
-                    .frame(width: 150, height: 150)
-                    .rotationEffect(.degrees(-25))
-            }
-        }.padding(.horizontal)
+
+        }
+    
     }
-}
+struct FelcitationView: View{
+    @Binding var isOpened: Bool
+    var body: some View {
+        ZStack {
+            Color.offWhite.ignoresSafeArea(edges: .top)
+            VStack{
+                Image(.logoAmiGo)
+                Spacer()
+                ZStack{
+                    Image(.llamaSunglasses)
+                        .resizable()
+                        .frame(width: 300, height: 300)
+                }
+                
+                
+        Text("Bravo! Tu as trouvé ton amiGo, place au fun !")
+                    .font(.title2)
+                    .italic()
+                    .frame(width: 300)
+                    Spacer()
+                Image(.handThumbsup)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100,height:100)
+                Button("fermer") {
+                        isOpened = false
+                            }
+                
+            }
+        }
+                              
+                   
+                    
+                    
+                    
+                }
+            }
 
 
-#Preview {
-    AideLamaExtractedView(textAide: "Aide-moi", bulleAide: .constant(true), imageLamaBoutton: "LlamaHappy")
-}
+
