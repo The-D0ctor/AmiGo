@@ -48,35 +48,37 @@ struct SearchResultView: View {
                     ScrollView{
                         
                         ForEach(usersTrip) { eachUserTrip in
-                            AmiGoResults(userTrip: eachUserTrip, nbAmiGos: $nbAmiGos, showModal2: $showModal2)
+                            AmiGoResults(userTrip: eachUserTrip, nbAmiGos: $nbAmiGos, showModal2: $showModal2, boutonActif: true)
                         }
                     }
                 }.padding()
                 
-                AideLama(textAide:"Choisis 3 AmiGos avec qui tu pourrais voyager", bulleAide: true, imageLamaBoutton: "LlamaHappy")
+                AideLama(textAide:"Choisis 3 AmiGOs avec qui tu pourrais voyager", bulleAide: true, imageLamaBoutton: "LlamaHappy")
                 
                     .frame(width : 360, height: 80)
             }.padding()
         } .toolbar {
             ToolbarItem(placement: .principal) {
                 Image("LogoAmiGo")
+                    .resizable()
+                    .scaledToFit()
             }
 
         }
         .sheet(isPresented: $showModal1) {
             
-            LamaModal(llama: "LlamaSmile", information: "Tu n'as pas encore trouvé ton AmiGo,choisis en 3 parmi la liste", image: "hand.rays", dissmissModal: $showModal1)
+            LamaModal(llama: "LlamaSmile", information: "Tu n'as pas encore trouvé ton AmiGO, choisis en 3 parmi la liste", image: "hand.rays", dissmissModal: $showModal1)
         }
         .sheet(isPresented: $showModal2) {
             
-            LamaModal(llama: "LlamaSpeaking", information: "Les AmiGos ont reçu ta demande. \r Attendons leur retour ...", image: "hourglass", dissmissModal: $showModal2)
+            LamaModal(llama: "LlamaSpeaking", information: "Les AmiGOs ont reçu ta demande. \r Attendons leur retour ...", image: "hourglass", dissmissModal: $showModal2)
         }
     }
 }
 
 #Preview {
     
-    SearchResultView(departureStation: .constant("nation"), arrivalStation: .constant("CDG"), bulleAide: false)
+    SearchResultView(departureStation: .constant("Nation"), arrivalStation: .constant("CDG Etoile"), bulleAide: false)
 }
 
 struct AmiGoResults: View {
@@ -84,6 +86,7 @@ struct AmiGoResults: View {
     var userTrip : Trip
     @Binding var nbAmiGos : Int
     @Binding var showModal2 : Bool
+    @State var boutonActif : Bool = true
     
     var body: some View {
         
@@ -98,7 +101,9 @@ struct AmiGoResults: View {
                 Image(userTrip.user.image)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 70, height: 60)
+                    .frame(width: 70, height: 70)
+                    .clipShape(Circle())
+                
                 ZStack{
                     Rectangle()
                         .opacity(0)
@@ -136,6 +141,7 @@ struct AmiGoResults: View {
                 
                 Button {
                     nbAmiGos += 1
+                    boutonActif = false
                     
                 }label:{
                     Text("Contacte ton AmiGo")
@@ -146,7 +152,9 @@ struct AmiGoResults: View {
                         .cornerRadius(10)
                         .foregroundStyle(.white)
                         .multilineTextAlignment(.center)
-                }
+                        
+                }.disabled(!boutonActif)
+                    .opacity(boutonActif ? 1 : 0)
             }
         }.frame(width: 380, height: 80)
     }

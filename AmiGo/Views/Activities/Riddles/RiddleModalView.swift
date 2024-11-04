@@ -26,7 +26,7 @@ struct RiddleModalView: View {
                 Text(riddle.question)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
-                    .background(Color.accent)
+                    .background(Color.creme)
                     .clipShape(.rect(cornerRadius: 10))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
@@ -37,7 +37,7 @@ struct RiddleModalView: View {
                 Text(riddle.solution)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
-                    .background(Color.accent)
+                    .background(Color.lightTurquoise)
                     .clipShape(.rect(cornerRadius: 10))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)

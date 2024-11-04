@@ -16,22 +16,28 @@ struct GamesListView: View {
                 Color.offWhite.ignoresSafeArea()
                 
                 VStack{
-                        Text("Mini-Jeux")
-                            .font(.custom("Poppins-regular", size: 20))
-                        
+                       
                     ScrollView {
-                        OptionJeux(nameJeu: "Pierre, Feuille Ciseaux", imageJeu : "LlamaPierreFeuilleCiseaux", colorJeu:.turquoise)
+                        
+                        NavigationLink (destination:PierreFeuilleCiseauxView()) {
+                            OptionJeux(nameJeu: "Pierre, Feuille Ciseaux", imageJeu : "LlamaPierreFeuilleCiseaux", colorJeu:.turquoise)
+                        }
+                        
                         OptionJeux(nameJeu: "Tic, Tac, Toe", imageJeu : "LlamaTicTacToe", colorJeu:.darkOrange)
                         OptionJeux(nameJeu: "Pendu", imageJeu : "LlamaPendu", colorJeu:.turquoise)
                         OptionJeux(nameJeu: "Jeu de Mémoire", imageJeu : "LlamaMemoire", colorJeu:.darkOrange)
                 }
             }
         }
+            .navigationTitle("Jeux")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    GamesListView()
+    NavigationStack {
+        GamesListView()
+    }
 }
 
 struct OptionJeux: View {

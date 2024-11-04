@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct SpeechBubble: Shape {
+struct SpeechBubbleRight: Shape {
     private let radius: CGFloat
     private let tailSize: CGFloat
 
@@ -59,7 +59,7 @@ struct SpeechBubble: Shape {
 }
 
 #Preview {
-    SpeechBubble()
+    SpeechBubbleRight()
         .stroke(Color.gray, lineWidth: 3)
         .frame(width: 200, height: 100)
 }

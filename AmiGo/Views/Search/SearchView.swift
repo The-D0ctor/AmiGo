@@ -14,7 +14,7 @@ struct SearchView: View {
     
     var body: some View {
         
-        NavigationStack{
+        NavigationStack {
             
             ZStack {
                 
@@ -39,6 +39,7 @@ struct SearchView: View {
                     
                     NavigationLink(destination: SearchResultView(departureStation:$departureStation , arrivalStation: $arrivalStation, bulleAide: true)) {
                         Text("Go")
+                        
                     }
                     .padding()
                     .foregroundStyle(Color.white)
@@ -46,16 +47,11 @@ struct SearchView: View {
                     .fontWeight(.bold)
                     .font(.custom("Poppins", size:20))
                     .cornerRadius(10)
-                    
-                    
-                    //                    NavigationLink(destination: SearchResultView (departureStation: $departureStation, arrivalStation: $arrivalStation) {
-                    //                        Label("Go!")
-                    //                    }
-                    
+                    .disabled(departureStation.isEmpty || arrivalStation.isEmpty)
                     
                     Spacer()
                     
-                    AideLama(textAide:"Hola! \r Donne plus d'infos sur ton trajet et je vais t'aider à trouver des AmiGos", bulleAide: true, imageLamaBoutton: "LlamaHappy")
+                    AideLama(textAide:"Hola!\rDonne plus d'infos sur\rton trajet et je vais t'aider à trouver des AmiGOs ! ", bulleAide: true, imageLamaBoutton: "LlamaHappy")
                         .frame(width : 360, height: 130)
                     
                 }.padding()
@@ -64,11 +60,13 @@ struct SearchView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Image("LogoAmiGo")
+                        .resizable()
+                        .scaledToFit()
                 }
             }
-            
+            .navigationTitle("Trajet")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        
     }
 }
 
@@ -85,11 +83,11 @@ struct ExtractedTextField: View {
     var body: some View {
         
         TextField(departArrivee, text: $station2)
+            .frame(width:350, height :30 )
             .background(.white)
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(Color.turquoise, lineWidth: 1)
-                    .frame(width:350, height :30 )
             )
     }
 }

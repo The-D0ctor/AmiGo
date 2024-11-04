@@ -67,12 +67,15 @@ struct ActivityPicker: View {
     @Binding var selection: Activity
     @Binding var random: Bool
     @State var selectedRiddle: ActivityGuess
-    @State var randomRiddle: Bool = false
+    @State var showRiddleModal: Bool = false
+    @State var selectedQuizz: ActivityGuess
+    @State var showQuizzModal: Bool = false
     
     init(selection: Binding<Activity>, random: Binding<Bool>) {
         self._selection = selection
         self._random = random
         self.selectedRiddle = riddles[0]
+        self.selectedQuizz = quizzes[0]
     }
     
     var body: some View {
@@ -92,23 +95,35 @@ struct ActivityPicker: View {
                 }
             }.padding(.horizontal)
             TabView(selection: $selection) {
-                RiddlesListView(riddles: riddles, selectedRidle: $selectedRiddle, random: $randomRiddle).tag(Activity.riddle)
-                QuizzesListView().tag(Activity.quizz)
+                RiddlesListView(riddles: riddles, selectedRidle: $selectedRiddle, showModal: $showRiddleModal).tag(Activity.riddle)
+                QuizzesListView(quizzes: quizzes, selectedQuizz: $selectedQuizz, showModal: $showQuizzModal).tag(Activity.quizz)
                 GamesListView().tag(Activity.game)
                 SubjectConvsView().tag(Activity.subjectConv)
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .indexViewStyle(.page(backgroundDisplayMode: .interactive))
             .animation(.easeInOut, value: selection)
-            .onChange(of: random) {
-                print(random)
-                if (random) {
-                    if (selection == .riddle) {
-                        selectedRiddle = riddles.randomElement()!
-                        randomRiddle = true
-                    }
-                }
+            .onAppear {
+                manageRandom(random: $random)
             }
+            .onChange(of: random) {
+                manageRandom(random: $random)
+            }
+        }
+    }
+    
+    private func manageRandom(random: Binding<Bool>) {
+        print(random.wrappedValue)
+        if (random.wrappedValue) {
+            if (selection == .riddle) {
+                selectedRiddle = riddles.randomElement()!
+                showRiddleModal = true
+            }
+            else if (selection == .quizz) {
+                selectedQuizz = quizzes.randomElement()!
+                showQuizzModal = true
+            }
+            random.wrappedValue = false
         }
     }
 }

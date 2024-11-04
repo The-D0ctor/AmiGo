@@ -8,34 +8,18 @@
 import SwiftUI
 
 struct RiddlesListView: View {
-    let riddles: [ActivityGuess]/* = [
-        ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique"),
-        ActivityGuess(question: "Pourquoi les plongeurs plongent-ils en arrière ?", answers: [], solution: "Parce que s’ils plongeaient en avant ils tomberaient dans le bateau.", theme: "Plongeur"),
-        ActivityGuess(question: "Que se disent deux bonhommes de neige qui se croisent ?", answers: [], solution: "« Tu trouves pas que ça sent la carotte aujourd’hui ? »", theme: "Bonhomme de neige"),
-        ActivityGuess(question: "Comment le boulanger range ses pains au chocolat ?", answers: [], solution: "Dans l’ordre des croissants.", theme: "Boulanger"),
-        ActivityGuess(question: "Quatre éléphants sont dans une voiture. Lequel conduit ?", answers: [], solution: "Celui qui a le permis.", theme: "Éléphant"),
-        ActivityGuess(question: "Qu'est ce qui a 118 yeux et 7 dents ?", answers: [], solution: "Un autobus rempli de personnes âgées.", theme: "Yeux et dents"),
-        ActivityGuess(question: "Qu'est-ce qu'on trouve dans un nez bien propre ?", answers: [], solution: "Des empreintes digitales.", theme: "Nez"),
-        ActivityGuess(question: "Combien de fois des gens se sont jetés du haut de la Tour Eiffel ?", answers: [], solution: "Une seule fois chacun.", theme: "Tour Eiffel"),
-        ActivityGuess(question: "Pourquoi un fermier ne peut se marier avec une fille prénommée Claire ?", answers: [], solution: "Parce que la ferme tuerait Claire.", theme: "Fermier"),
-        ActivityGuess(question: "Quel animal a trois bosses ?", answers: [], solution: "Un chameau qui s’est cogné.", theme: "Animal"),
-    ]*/
+    let riddles: [ActivityGuess]
     
-    @State var showModal: Bool = false
     @Binding var selectedRidle: ActivityGuess
-    @Binding var random: Bool
-    
-    /*init(random: Binding<Bool>) {
-        self.selectedRidle = riddles[0]
-        self._random = random
-    }*/
+    @Binding var showModal: Bool
+    //@Binding var random: Bool
     
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(riddles) { riddle in
-                    RoundedCornerBorderButton(text: riddle.theme) {
-                        selectedRidle = riddle
+                ForEach(riddles.indices, id: \.self) { indice in
+                    RoundedCornerBorderButton(text: riddles[indice].theme, backgroundColor: indice % 2 == 0 ? .creme : .lightTurquoise, strokeColor: indice % 2 == 0 ? .accent : .turquoise) {
+                        selectedRidle = riddles[indice]
                         showModal = true
                     }
                 }
@@ -51,19 +35,18 @@ struct RiddlesListView: View {
                         .padding(30)
                 }
             }
-            .onChange(of: random) {
+            /*.onChange(of: random) {
                 print(random)
                 if random {
-                    //selectedRidle = riddles.randomElement()!
                     showModal = true
-                    //random.toggle()
+                    random = false
                 }
-            }
+            }*/
         }
     }
 }
 
 #Preview {
     RiddlesListView(riddles: [
-        ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")], selectedRidle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")), random: .constant(false))
+        ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")], selectedRidle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")), showModal: .constant(false))
 }

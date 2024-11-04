@@ -16,7 +16,8 @@ struct ActivitiesView: View {
     @State private var textAide: String = ""
     @State private var bulleAide: Bool = false
 
-@State private var path: [Activity] = []
+    @State private var path: [Activity] = []
+    @State var random: Bool = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -39,6 +40,7 @@ struct ActivitiesView: View {
                         //BOUTTON POUR Laisser Alpago choisir
                         
                         Button {
+                            random = true
                             path.append(Activity.allCases.randomElement()!)
                         } label: {
                             ZStack {
@@ -61,12 +63,13 @@ struct ActivitiesView: View {
                             .frame(width : 350, height: 60)
                     }
                 }
-                .padding()
+                .padding([.horizontal, .bottom])
+                .padding(.top, 50)
                 .navigationDestination(for: Activity.self) { activity in
-                    ActivitiesTabView(selectedActivity: activity)
+                    ActivitiesTabView(selectedActivity: activity, random: $random)
                 }
             }
-            .padding(.top, 40)
+            //.padding(.top, 40)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Image("LogoAmiGo")

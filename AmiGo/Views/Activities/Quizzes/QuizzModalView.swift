@@ -30,7 +30,7 @@ struct QuizzModalView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
-            .background(isCorrect == nil ? Color.accent : isCorrect == true ? Color.green : Color.red)
+            .background(isCorrect == nil ? .creme : isCorrect == true ? .green : .red)
             .clipShape(.rect(cornerRadius: 10))
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
@@ -53,7 +53,7 @@ struct QuizzModalView: View {
                         Text(answer.answer)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.accentColor)
+                            .background(Color.lightTurquoise)
                             .clipShape(.rect(cornerRadius: 10))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)

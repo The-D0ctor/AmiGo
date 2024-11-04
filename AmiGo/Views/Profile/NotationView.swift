@@ -64,8 +64,8 @@ struct NotationView: View {
                     }
                     Spacer()
                     
-                    Button {
-                        //centralSymbol = "smiley"
+                    NavigationLink {
+                        SwiftUIView_Lama5()
                     } label: {
                         Text("Signaler cet Amigo ?")
                             .frame(width: 150, height: 60)

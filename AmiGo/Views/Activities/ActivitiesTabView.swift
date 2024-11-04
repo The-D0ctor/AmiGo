@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ActivitiesTabView: View {
     @State var selectedActivity: Activity = .riddle
-    @State var random: Bool = false
+    @Binding var random: Bool
     
     var body: some View {
         ZStack {
@@ -29,9 +29,17 @@ struct ActivitiesTabView: View {
                 }.padding(.bottom)
             }
         }
+        .padding(.top)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Image("LogoAmiGo")
+                    .resizable()
+                    .scaledToFit()
+            }
+        }
     }
 }
 
 #Preview {
-    ActivitiesTabView()
+    ActivitiesTabView(random: .constant(false))
 }

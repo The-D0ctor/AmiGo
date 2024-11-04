@@ -19,7 +19,7 @@ struct AideLama: View {
             if bulleAide {
                 ZStack {
                     
-                    SpeechBubble(radius: 20)
+                    SpeechBubbleRight(radius: 20)
                         .fill(Color.white)
                         .stroke(Color.gray, lineWidth: 3)
                         .frame(maxWidth: .infinity)
