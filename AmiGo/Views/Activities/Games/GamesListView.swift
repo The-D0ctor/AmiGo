@@ -22,8 +22,9 @@ struct GamesListView: View {
                         NavigationLink (destination:PierreFeuilleCiseauxView()) {
                             OptionJeux(nameJeu: "Pierre, Feuille Ciseaux", imageJeu : "LlamaPierreFeuilleCiseaux", colorJeu:.turquoise)
                         }
-                        
-                        OptionJeux(nameJeu: "Tic, Tac, Toe", imageJeu : "LlamaTicTacToe", colorJeu:.darkOrange)
+                        NavigationLink (destination:TicTacToeView()) {
+                            OptionJeux(nameJeu: "Tic, Tac, Toe", imageJeu : "LlamaTicTacToe", colorJeu:.darkOrange)
+                        }
                         OptionJeux(nameJeu: "Pendu", imageJeu : "LlamaPendu", colorJeu:.turquoise)
                         OptionJeux(nameJeu: "Jeu de Mémoire", imageJeu : "LlamaMemoire", colorJeu:.darkOrange)
                 }

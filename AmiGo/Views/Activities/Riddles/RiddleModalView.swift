@@ -70,5 +70,5 @@ struct RiddleModalView: View {
 }
 
 #Preview {
-    RiddleModalView(riddle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")), showModal: .constant(true))
+    RiddleModalView(riddle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique", color: .red)), showModal: .constant(true))
 }

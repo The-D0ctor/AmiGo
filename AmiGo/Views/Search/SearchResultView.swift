@@ -15,8 +15,8 @@ struct SearchResultView: View {
     @State var nbAmiGos : Int = 0
     @State var bulleAide: Bool
     
-    @State var showModal1 : Bool = true
     @State var showModal2 : Bool = false
+    
 
     var body: some View {
         
@@ -30,32 +30,32 @@ struct SearchResultView: View {
                     DepartArrivee(icon: "mappin2", station: departureStation, iconArrow: "arrow.up", colorArrow: .turquoise)
                     DepartArrivee(icon: "mappin", station: arrivalStation, iconArrow: "arrow.down", colorArrow: .darkOrange)
                     
-                }.padding(.horizontal, 20)
+                }.padding()
                 
                 VStack (alignment:.leading){
                     
-                    Text(" \(usersTrip.count) AmiGos autour de toi: ")
+                    Text(" \(usersTrip.count) AmiGOs autour de toi: ")
                         .font(.custom("Poppins-bold", size:20))
                     
-                    Text("\(nbAmiGos) AmiGos selectionnés")
+                    Text("\(nbAmiGos) AmiGOs selectionnés sur 3")
                     
                         .onChange(of:nbAmiGos) {
                             if nbAmiGos >= 3 {showModal2 = true
                             }
                         }
 
-                
                     ScrollView{
                         
                         ForEach(usersTrip) { eachUserTrip in
-                            AmiGoResults(userTrip: eachUserTrip, nbAmiGos: $nbAmiGos, showModal2: $showModal2, boutonActif: true)
+                            AmiGoResults(userTrip: eachUserTrip, nbAmiGos: $nbAmiGos, showModal2: $showModal2, boutonSelectionné: false)
                         }
                     }
                 }.padding()
                 
-                AideLama(textAide:"Choisis 3 AmiGOs avec qui tu pourrais voyager", bulleAide: true, imageLamaBoutton: "LlamaHappy")
+                AideLama(textAide:"Choisis jusqu'a 3 AmiGOs avec qui tu pourrais voyager", bulleAide: true, imageLamaBoutton: "LlamaHappy")
                 
                     .frame(width : 360, height: 80)
+                
             }.padding()
         } .toolbar {
             ToolbarItem(placement: .principal) {
@@ -63,15 +63,10 @@ struct SearchResultView: View {
                     .resizable()
                     .scaledToFit()
             }
-
-        }
-        .sheet(isPresented: $showModal1) {
-            
-            LamaModal(llama: "LlamaSmile", information: "Tu n'as pas encore trouvé ton AmiGO, choisis en 3 parmi la liste", image: "hand.rays", dissmissModal: $showModal1)
         }
         .sheet(isPresented: $showModal2) {
             
-            LamaModal(llama: "LlamaSpeaking", information: "Les AmiGOs ont reçu ta demande. \r Attendons leur retour ...", image: "hourglass", dissmissModal: $showModal2)
+            LamaModal(llama: "LlamaSpeaking", information: "Les AmiGOs ont reçu ta demande. \r Tu seras prévenu quand elle sera acceptée. ", image: "peopleConnected", dissmissModal: $showModal2)
         }
     }
 }
@@ -82,11 +77,23 @@ struct SearchResultView: View {
 }
 
 struct AmiGoResults: View {
-    
+   
     var userTrip : Trip
     @Binding var nbAmiGos : Int
     @Binding var showModal2 : Bool
-    @State var boutonActif : Bool = true
+    @State var boutonSelectionné : Bool = false
+    
+    func annulerDemande () -> String {
+        return boutonSelectionné ? "Annuler" : "Contacter l'AmiGO"
+    }
+    
+    func nbAmiGoSelection () {
+        if boutonSelectionné {
+            nbAmiGos += 1
+        }else {
+            nbAmiGos -= 1
+        }
+    }
     
     var body: some View {
         
@@ -140,11 +147,12 @@ struct AmiGoResults: View {
                 }
                 
                 Button {
-                    nbAmiGos += 1
-                    boutonActif = false
+        
+                    boutonSelectionné.toggle()
+                    nbAmiGoSelection()
                     
                 }label:{
-                    Text("Contacte ton AmiGo")
+                    Text(annulerDemande())
                         .frame(width: 70, height: 70)
                         .padding(5)
                         .background(userTrip.user.gender == "female" ? .darkOrange : .turquoise)
@@ -153,8 +161,7 @@ struct AmiGoResults: View {
                         .foregroundStyle(.white)
                         .multilineTextAlignment(.center)
                         
-                }.disabled(!boutonActif)
-                    .opacity(boutonActif ? 1 : 0)
+                }
             }
         }.frame(width: 380, height: 80)
     }
@@ -167,6 +174,7 @@ struct DepartArrivee: View {
     var colorArrow : Color
     
     var body: some View {
+        
         HStack{
             Image(icon)
                 .resizable()
@@ -174,21 +182,20 @@ struct DepartArrivee: View {
                 .frame(width: 20, height: 20)
             ZStack{
                 Rectangle()
-                    .frame(width: 350, height: 30)
+                    .frame(width: 320, height: 30)
                     .foregroundColor(.white)
                 HStack {
                     Text("\(station)")
                         .font(.custom("Poppins-Light", size:16))
                     Spacer()
                 }
-                
             }
             Image(iconArrow)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 20, height: 20)
                 .foregroundColor(colorArrow)
-        }
+        }.padding(5)
     }
 }
 

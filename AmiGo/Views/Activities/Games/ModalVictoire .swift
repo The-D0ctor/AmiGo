@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ModalPFC: View {
+struct ModalVictoire: View {
     
     @Binding var dissmissModal : Bool
     @Binding var winner : String
@@ -39,5 +39,5 @@ struct ModalPFC: View {
 }
 
 #Preview {
-    ModalPFC(dissmissModal: .constant(true), winner: .constant("AmiG01"),scoreAmiGO1:.constant(0),scoreAmiGO2:.constant(0))
+    ModalVictoire(dissmissModal: .constant(true), winner: .constant("AmiG01"),scoreAmiGO1:.constant(0),scoreAmiGO2:.constant(0))
 }

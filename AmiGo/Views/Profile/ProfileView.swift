@@ -19,7 +19,7 @@ struct ProfileView: View {
                             Text ("Ton AmiGo")
                                 .font(.title)
                                 .bold()
-                            Image(.myAvatar)
+                            Image(.myAvatar3)
                                 .resizable()
                                 .scaledToFit()
                                 .clipShape(Circle())
@@ -53,25 +53,34 @@ struct ProfileView: View {
                                 Image("RATP")
                                     .resizable()
                                     .scaledToFit()
+                                    .frame(width: 100, height: 100)
                                     .padding()
                                 Button {
                                     let url = URL(string: "tel://3117")
                                     UIApplication.shared.open(url!)
                                 } label: {
+                                    
                                     ZStack {
-                                        Color(.systemOrange)
-                                            .frame (width: 100, height: 50)
-                                            .cornerRadius(100)
-                                            .opacity(0.4)
-                                        Text("31 17")
-                                            .font(.title3)
-                                            .bold()
-                                            .foregroundStyle(.black)
+                                        Color(.red)
+                                        .frame (width: 120, height: 50)
+                                        .cornerRadius( 30 )
+                                    Text("31 17")
+                             //  .padding()
+                             //            .background(Color.red)
+                                            .font(.title)
+                             //              .bold()
+                                           .foregroundStyle(.white)
+                            //         .clipShape(.capsule)
                                     }
+                                    
                                 }
+                                Text("URGENCES RATP")
+                                    .font(.caption)
+                                    .foregroundStyle(.red)
+                                
                             }
                             
-                            VStack{
+                            VStack(spacing: 24){
                                 ZStack {
                                     SpeechBubbleBottom(radius: 10)
                                         .fill(Color.white)
@@ -92,7 +101,7 @@ struct ProfileView: View {
                             }
                         }
                     }
-                    .padding()
+                    .padding(7)
                     .overlay(RoundedRectangle(cornerRadius: 30 )
                         .stroke(Color.turquoise,lineWidth: 1))
                     .padding()

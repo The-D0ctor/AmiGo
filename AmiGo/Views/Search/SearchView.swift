@@ -64,7 +64,7 @@ struct SearchView: View {
                         .scaledToFit()
                 }
             }
-            .navigationTitle("Trajet")
+            .navigationTitle("Recherche")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -83,6 +83,7 @@ struct ExtractedTextField: View {
     var body: some View {
         
         TextField(departArrivee, text: $station2)
+            .padding()
             .frame(width:350, height :30 )
             .background(.white)
             .overlay(

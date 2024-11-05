@@ -113,7 +113,7 @@ struct PierreFeuilleCiseauxView: View {
                 }
             }
         }
-        .sheet(isPresented: $showModal) {ModalPFC(dissmissModal: $showModal, winner: $winner, scoreAmiGO1: $scoreAmiGO1, scoreAmiGO2: $scoreAmiGO2)
+        .sheet(isPresented: $showModal) {ModalVictoire(dissmissModal: $showModal, winner: $winner, scoreAmiGO1: $scoreAmiGO1, scoreAmiGO2: $scoreAmiGO2)
         }
     }
     

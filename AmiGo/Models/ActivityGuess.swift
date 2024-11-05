@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ActivityGuess: Identifiable {
     let id: UUID = UUID()
@@ -13,5 +14,6 @@ struct ActivityGuess: Identifiable {
     let answers: [ActivityGuessAnswer]
     let solution: String
     let theme: String
+    let color: Color
     var isHidden: Bool = true
 }

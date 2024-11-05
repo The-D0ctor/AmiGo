@@ -52,13 +52,13 @@ struct NotationView: View {
                     Spacer()
                     HStack(spacing: 10){
                         
-                        NotationExtractedView(buttonSad: $buttonSad, llamaface: "LlamaSad", clickimage: "hand.thumbsdown.fill" )
+                        NotationExtractedView(buttonSad: $buttonSad, llamaface: "lamanote1", clickimage: "hand.thumbsdown.fill" )
                         
-                        NotationExtractedView(buttonSad: $buttonBof, llamaface: "LlamaSmile", clickimage: "smiley.fill" )
+                        NotationExtractedView(buttonSad: $buttonBof, llamaface: "lamanote2", clickimage: "smiley.fill" )
                         
-                        NotationExtractedView(buttonSad: $buttonHappy, llamaface: "LlamaHappy", clickimage: "hand.thumbsup.fill" )
+                        NotationExtractedView(buttonSad: $buttonHappy, llamaface: "lamanote3", clickimage: "hand.thumbsup.fill" )
                         
-                        NotationExtractedView(buttonSad: $buttonWink, llamaface: "LlamaWink", clickimage: "hands.and.sparkles.fill" )
+                        NotationExtractedView(buttonSad: $buttonWink, llamaface: "lamanote4", clickimage: "hands.and.sparkles.fill" )
 
 
                     }
@@ -68,10 +68,10 @@ struct NotationView: View {
                         SwiftUIView_Lama5()
                     } label: {
                         Text("Signaler cet Amigo ?")
-                            .frame(width: 150, height: 60)
-                            .background(Color("AccentColor"))
-                            .cornerRadius(15)
-                            .foregroundColor(.white)
+                            .font(.custom("Poppins", size: 18))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.red)
+                            .underline()
                             .padding()
 
                     }

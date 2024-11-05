@@ -1,173 +1,171 @@
-//
-//  MessagesView.swift
-//  AmiGo
-//
-//  Created by Sébastien Rochelet on 28/10/2024.
-//
 
 import SwiftUI
-
 struct MessagesView: View {
     @State var message = ""
-    @State var isClosed = true
-    @State var isOpened = false
-    
-    //l'objet d'état est le propriétaire de l'objet
+    @State var showModal1 : Bool = true
     @StateObject var allMessages = Messageries()
+    @State var showModal2 : Bool = false
+    
     var body: some View {
-        NavigationStack{
-            ZStack {
-                Color.offWhite.ignoresSafeArea(edges: [.top, .horizontal])
-                VStack {
-                    //ZStack {
-                    HStack {
-                        Image("myAvatar8")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
-                            .foregroundColor(.black)
-                        Text("Jules")
-                            .fontWeight(.bold)
-                        
-                        Text("Active")
-                            .font(.caption)
-                        
-                        NavigationLink(destination: ProfileView()) {
-                            Image(systemName: "gear")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(.accentColor)
-                                .padding(.all)
-                        }
-                        .foregroundColor(.black)
-                        
-                    }
-                    
-                    .padding(.all)
-                    
-                    VStack {
-                        // affichage d'un message
-                        ScrollView(.vertical, showsIndicators: false, content:{
-                            ScrollViewReader{ reader in
-                                VStack(spacing: 20) {
-                                    ForEach(allMessages.messageries) { msg in
-                                        // Bulles de Chat...
-                                        ChatBulle(msg: msg)
-                                        
-                                        
-                                    }
-                                }
-                                .padding([.horizontal, .bottom])
-                                .padding(.top, 25)
-                            }
-                        })
-                        
-                        HStack (spacing: 15){
-                            
-                            HStack(spacing: 15) {
-                                
-                                
-                                TextField("message", text: self.$message)
-                                
-                                Button(action: {}, label: {
-                                    Image(systemName: "paperclip.circle.fill")
-                                        .font(.system(size:22))
-                                        .foregroundColor(.gray)
-                                })
-                            }
-                            .padding(.vertical, 12)
-                            .padding(.horizontal)
-                            .background(Color(Color.black.opacity(0.06)))
-                            .clipShape(Capsule())
-                            
-                            // Send Button...
-                            // Hidding view
-                            
-                            if message != ""{
-                                Button(action: {
-                                    //ajout d'un message...
-                                    allMessages.messageries.append(Messagerie(id: Date(),mssge: message, myMsg: true, photo: nil , profilePic: "myAvatar"))
-                                    message = ""
-                                    
-                                }, label: {
-                                    Image(systemName: "paperplane.fill")
-                                        .font(.system(size: 22))
-                                        .foregroundColor(Color("AccentColor"))
-                                    //rotating the image...
-                                        .rotationEffect(.init(degrees: 45))
-                                    // adjusting padding shape
-                                    
-                                        .padding(.vertical,60)
-                                        .padding(.leading,12)
-                                        .padding(.trailing, 17)
-                                    
-                                        .background(Color.black.opacity(0.10))
-                                        .clipShape(Circle())
-                                    
-                                })
-                                
-                            }
-                        }
-                        .padding(.horizontal)
-                    }
-                    .background(Color("AccentColor").opacity(0.07))
-                    .clipShape(RoundedShape())
-                    .padding()
-                    HStack {
-                        Button() {
-                            isOpened = true
-                        } label : {
-                            Text("Bravo tu as retrouvé ton amigo")
-                                .frame(width: 150, height: 60)
-                                .padding(10)
-                                .background(Color("Turquoise"))
-                                .cornerRadius(15)
-                                .foregroundColor(.white)
-                        }
-                        //
-                        
-                        
-                        
-                        .fullScreenCover(isPresented: $isOpened) {
-                            FelcitationView(isOpened: $isOpened)
-                        }
-                        .sheet(isPresented: $isOpened) { // Afficher la modale avec
-                            FelcitationView(isOpened: $isOpened) // Vue modale à afficher
-                        }
-                        
-                        
-                        .fullScreenCover(isPresented: $isClosed) {
-                            ModalView(isClosed: $isClosed)
-                        }
-                        NavigationLink(destination: NotationView(clickimage: "", llamaface: "")) {
-                            Text("Le voyage est terminé")
-                                .font(.system(size: 15))
-                                .frame(width: 150, height: 60)
-                                .padding(10)
-                                .background(Color("AccentColor"))
-                                .cornerRadius(15)
-                                .foregroundColor(.white)
-                            
-                            
-                        }
-                    }
-                }
+        NavigationStack {
+            VStack {
+                HeaderView()
+                
+                MessageListView(allMessages: allMessages)
+                
+                MessageInputView(message: $message, allMessages: allMessages)
+                
+                ActionButtons(showModal2: $showModal2)
             }
+            .padding()
+            .background(Color("OffWhite").edgesIgnoringSafeArea(.top))
             .toolbar {
-                ToolbarItem(placement: .principal){
+                ToolbarItem(placement: .principal) {
                     Image("LogoAmiGo")
                         .resizable()
                         .scaledToFit()
                 }
             }
+        
+//            .fullScreenCover(isPresented: $showModal1) {
+//                ModalOpen(dismissModal1: $showModal1)
+//            }
+            
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented:$showModal1) {
+                ModalOpen(dismissModal1: $showModal1)
+            }
+            .sheet(isPresented:$showModal2) {
+                ModalSortie(dismissModal2: $showModal2)
+                }
         }
     }
-    
 }
 
+// Vue pour l'entête
+struct HeaderView: View {
+    var body: some View {
+        ZStack {
+            HStack {
+                
+                Image("myAvatar8")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .clipShape(Circle())
+                    
+            
+                Spacer()
+                NavigationLink(destination: ProfileView()) {
+                    Image(systemName: "gear")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .clipShape(Circle())
+                        .foregroundColor(.accentColor)
+                        
+                }
+               
+            }
+            
+            VStack {
+                HStack {
+                    
+                    
+                    Text("Jules")
+                        .fontWeight(.bold)
+                    
+                    Text("Active")
+                        .font(.caption)
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .padding(.all)
+    }
+}
 
+// Vue pour la liste des messages
+struct MessageListView: View {
+    @ObservedObject var allMessages: Messageries
+    
+    var body: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 20) {
+                ForEach(allMessages.messageries) { msg in
+                    ChatBulle(msg: msg)
+                }
+            }
+            .padding([.horizontal, .bottom])
+            .padding(.top, 25)
+            .background(Color("AccentColor").opacity(0.07))
+            .cornerRadius(20)
+        }
+    }
+}
+
+// Vue pour le champ de saisie des messages
+struct MessageInputView: View {
+    @Binding var message: String
+    @ObservedObject var allMessages: Messageries
+    
+    var body: some View {
+        HStack(spacing: 15) {
+            TextField("message", text: $message)
+                .padding(.vertical, 12)
+                .padding(.horizontal)
+                .background(Color.black.opacity(0.06))
+                .clipShape(Capsule())
+            
+            Button(action: {
+                // Ajout d'un message...
+                allMessages.messageries.append(Messagerie(id: Date(), mssge: message, myMsg: true, profilePic: "myAvatar"))
+                message = ""
+            }) {
+                Image(systemName: "paperplane.fill")
+                    .font(.system(size: 22))
+                    .foregroundColor(Color("AccentColor"))
+                    .rotationEffect(.init(degrees: 45))
+                    .background(Color.black.opacity(0.10))
+                    .clipShape(Circle())
+            }
+            .padding(.leading, 12)
+        }
+        .padding(.horizontal)
+    }
+}
+
+// Vue pour les boutons d'action
+
+struct ActionButtons: View {
+    
+    @Binding var showModal2 : Bool
+//    @State var dismissModal2 : Bool = true
+    
+    var body: some View {
+        HStack {
+            Button {
+                
+                showModal2.toggle()
+                
+            } label: {
+                Text("Bravo tu as retrouvé ton amigo")
+                    .frame(width: 150, height: 60)
+                    .background(Color("Turquoise"))
+                    .cornerRadius(15)
+                    .foregroundColor(.white)
+            }
+
+            NavigationLink(destination: NotationView(clickimage: "", llamaface: "")) {
+                Text("Le voyage est terminé")
+                    .frame(width: 150, height: 60)
+                    .background(Color("AccentColor"))
+                    .cornerRadius(15)
+                    .foregroundColor(.white)
+            }
+            
+        }
+    }
+}
 
 
 // Bubble Arrow
@@ -210,14 +208,14 @@ struct ChatBulle : View {
                     .padding(.all)
                     .background(Color("AccentColor"))
                     .clipShape(BubbleArrow(myMsg: msg.myMsg))
-                
+               
                 Spacer(minLength: 25)
+               
+            }
                 
             }
-            
         }
     }
-}
 
 // forme arrondie personnalisée
 struct RoundedShape: Shape {
@@ -244,7 +242,7 @@ class Messageries : ObservableObject {
         let strings = ["Hii","Hello!!!","Grâce à Amigo, on sait maintenant qu’on partage la même ligne de transport,  Ça te dit qu’on fasse un peu connaissance en attendant la prochaine station ?", "Hello ! Oui, on dirait bien ! Tu as découvert Amigo depuis longtemps ?","Non, récemment"]
         for i in 0..<strings.count{
             // logique pour une vue des messages sur les côtés ...
-            messageries.append(Messagerie(id: Date(), mssge: strings[i], myMsg: i % 2 == 0 ? true : false, profilePic: i % 2 == 0 ? "myAvatar" : "myAvatar8"))
+            messageries.append(Messagerie(id: Date(), mssge: strings[i], myMsg: i % 2 == 0 ? true : false, profilePic: i % 2 == 0 ? "myAvatar3" : "myAvatar8"))
         }
     }
     func writeMessage(id: Date, msg: String, photo: Data?, myMsg: Bool, profilePic: String) {
@@ -253,73 +251,11 @@ class Messageries : ObservableObject {
 }
 
 #Preview {
-    MessagesView(isClosed: false )
+    MessagesView()
 }
 
 
 
-struct ModalView: View{
-    @Binding var isClosed: Bool
-    var body: some View {
-        ZStack {
-            Color.white.ignoresSafeArea(edges: .top)
-            VStack(alignment:.center){
-                Image(.logoAmiGo)
-                Spacer()
-                ZStack{
-                    Image(.llamaWink)
-                        .resizable()
-                        .frame(width: 300, height: 300)
-                }
-                
-                
-                Text("Félicitations ta demande de amiGo à été aceptée")
-                    .font(.title2)
-                    .italic()
-                    .frame(width: 300)
-                Spacer()
-                Button("fermer") {
-                    isClosed = false
-                }
-            }
-        }
-        
-    }
-    
-}
-
-struct FelcitationView: View{
-    @Binding var isOpened: Bool
-    var body: some View {
-        ZStack {
-            Color.white.ignoresSafeArea(edges: .top)
-            VStack{
-                Image(.logoAmiGo)
-                Spacer()
-                ZStack{
-                    Image(.llamaSunglasses)
-                        .resizable()
-                        .frame(width: 300, height: 300)
-                }
-                
-                
-                Text("Bravo! Tu as trouvé ton amiGo, place au fun !")
-                    .font(.title2)
-                    .italic()
-                    .frame(width: 300)
-                Spacer()
-                Image(.handThumbsup)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100,height:100)
-                Button("fermer") {
-                    isOpened = false
-                }
-                
-            }
-        }
-    }
-}
 
 
 

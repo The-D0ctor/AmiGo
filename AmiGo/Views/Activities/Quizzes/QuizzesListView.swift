@@ -16,9 +16,9 @@ struct QuizzesListView: View {
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(quizzes.indices, id: \.self) { indice in
-                    RoundedCornerBorderButton(text: quizzes[indice].theme, backgroundColor: indice % 2 == 0 ? .creme : .lightTurquoise, strokeColor: indice % 2 == 0 ? .accent : .turquoise) {
-                        selectedQuizz = quizzes[indice]
+                ForEach(quizzes) { quizz in
+                    RoundedCornerBorderButton(text: quizz.theme, backgroundColor: quizz.color) {
+                        selectedQuizz = quizz
                         showModal = true
                     }
                 }
@@ -42,8 +42,8 @@ struct QuizzesListView: View {
     QuizzesListView(quizzes: [ActivityGuess(question: "Les chauves-souris vampires se nourrissent exclusivement de sang. Vrai ou faux ?", answers: [
         ActivityGuessAnswer(answer: "Vrai", isCorrect: true),
         ActivityGuessAnswer(answer: "Faux", isCorrect: false)
-    ], solution: "Il existe 3 espèces de chauves-souris vampires et elles se  nourrissent exclusivement de sang. On les trouve uniquement en Amérique centrale et en Amérique du Sud. Ces animaux peuvent transmettre la rage par morsure.", theme: "Chauves-Souris")], selectedQuizz: .constant(ActivityGuess(question: "Les chauves-souris vampires se nourrissent exclusivement de sang. Vrai ou faux ?", answers: [
+    ], solution: "Il existe 3 espèces de chauves-souris vampires et elles se  nourrissent exclusivement de sang. On les trouve uniquement en Amérique centrale et en Amérique du Sud. Ces animaux peuvent transmettre la rage par morsure.", theme: "Chauves-Souris", color: .red)], selectedQuizz: .constant(ActivityGuess(question: "Les chauves-souris vampires se nourrissent exclusivement de sang. Vrai ou faux ?", answers: [
         ActivityGuessAnswer(answer: "Vrai", isCorrect: true),
         ActivityGuessAnswer(answer: "Faux", isCorrect: false)
-    ], solution: "Il existe 3 espèces de chauves-souris vampires et elles se  nourrissent exclusivement de sang. On les trouve uniquement en Amérique centrale et en Amérique du Sud. Ces animaux peuvent transmettre la rage par morsure.", theme: "Chauves-Souris")), showModal: .constant(false))
+    ], solution: "Il existe 3 espèces de chauves-souris vampires et elles se  nourrissent exclusivement de sang. On les trouve uniquement en Amérique centrale et en Amérique du Sud. Ces animaux peuvent transmettre la rage par morsure.", theme: "Chauves-Souris", color: .red)), showModal: .constant(false))
 }

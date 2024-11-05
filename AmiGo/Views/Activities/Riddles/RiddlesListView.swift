@@ -17,9 +17,9 @@ struct RiddlesListView: View {
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(riddles.indices, id: \.self) { indice in
-                    RoundedCornerBorderButton(text: riddles[indice].theme, backgroundColor: indice % 2 == 0 ? .creme : .lightTurquoise, strokeColor: indice % 2 == 0 ? .accent : .turquoise) {
-                        selectedRidle = riddles[indice]
+                ForEach(riddles) { riddle in
+                    RoundedCornerBorderButton(text: riddle.theme, backgroundColor: riddle.color) {
+                        selectedRidle = riddle
                         showModal = true
                     }
                 }
@@ -48,5 +48,5 @@ struct RiddlesListView: View {
 
 #Preview {
     RiddlesListView(riddles: [
-        ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")], selectedRidle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique")), showModal: .constant(false))
+        ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique", color: .red)], selectedRidle: .constant(ActivityGuess(question: "Quelle est la plus basse note de musique ?", answers: [], solution: "Fa, parce qu’elle est sous le sol.", theme: "Musique", color: .red)), showModal: .constant(false))
 }

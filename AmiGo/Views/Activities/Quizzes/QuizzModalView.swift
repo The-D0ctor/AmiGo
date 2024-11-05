@@ -89,5 +89,5 @@ struct QuizzModalView: View {
     QuizzModalView(quizz: .constant(ActivityGuess(question: "Les chauves-souris vampires se nourrissent exclusivement de sang. Vrai ou faux ?", answers: [
         ActivityGuessAnswer(answer: "Vrai", isCorrect: true),
         ActivityGuessAnswer(answer: "Faux", isCorrect: false)
-    ], solution: "Il existe 3 espèces de chauves-souris vampires et elles se  nourrissent exclusivement de sang. On les trouve uniquement en Amérique centrale et en Amérique du Sud. Ces animaux peuvent transmettre la rage par morsure.", theme: "Chauves-Souris")), showModal: .constant(true))
+    ], solution: "Il existe 3 espèces de chauves-souris vampires et elles se  nourrissent exclusivement de sang. On les trouve uniquement en Amérique centrale et en Amérique du Sud. Ces animaux peuvent transmettre la rage par morsure.", theme: "Chauves-Souris", color: .red)), showModal: .constant(true))
 }
