@@ -5,6 +5,8 @@ struct MessagesView: View {
     @State var showModal1 : Bool = true
     @StateObject var allMessages = Messageries()
     @State var showModal2 : Bool = false
+    @Binding var notificationActivity : Int
+    @Binding var notificationMessage: Int
     
     var body: some View {
         NavigationStack {
@@ -15,7 +17,7 @@ struct MessagesView: View {
                 
                 MessageInputView(message: $message, allMessages: allMessages)
                 
-                ActionButtons(showModal2: $showModal2)
+                ActionButtons(showModal2: $showModal2, notificationActivity:$notificationActivity, notificationMessage: $notificationMessage)
             }
             .padding()
             .background(Color("OffWhite").edgesIgnoringSafeArea(.top))
@@ -25,18 +27,25 @@ struct MessagesView: View {
                         .resizable()
                         .scaledToFit()
                 }
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        ReportAmiGoView()
+                    } label: {
+                        Image("danger")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50)
+                    }
+
+                }
             }
-        
-//            .fullScreenCover(isPresented: $showModal1) {
-//                ModalOpen(dismissModal1: $showModal1)
-//            }
-            
+            .navigationTitle("Messages")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented:$showModal1) {
                 ModalOpen(dismissModal1: $showModal1)
             }
             .sheet(isPresented:$showModal2) {
-                ModalSortie(dismissModal2: $showModal2)
+                ModalSortie(dismissModal2: $showModal2, notificationActivity: $notificationActivity, notificationMessage: $notificationMessage)
                 }
         }
     }
@@ -72,10 +81,11 @@ struct HeaderView: View {
                     
                     
                     Text("Jules")
+                        .font(.custom("Poppins", size: 18))
                         .fontWeight(.bold)
                     
                     Text("Active")
-                        .font(.caption)
+                        .font(.custom("Poppins", size: 16))
                 }
                 .foregroundColor(.black)
             }
@@ -111,6 +121,7 @@ struct MessageInputView: View {
     var body: some View {
         HStack(spacing: 15) {
             TextField("message", text: $message)
+                .font(.custom("Poppins", size: 18))
                 .padding(.vertical, 12)
                 .padding(.horizontal)
                 .background(Color.black.opacity(0.06))
@@ -139,9 +150,20 @@ struct MessageInputView: View {
 struct ActionButtons: View {
     
     @Binding var showModal2 : Bool
-//    @State var dismissModal2 : Bool = true
+    @State var isNotationViewPresented : Bool = false
+    @Binding var notificationActivity : Int
+    @Binding var notificationMessage : Int
+    
+//    fonction qui remet à 0 les notifs Activity et Message dans la tapbar quand le trajet est terminé
+    
+    func removeNotifActivity () {
+        notificationActivity = 0
+        notificationMessage = 0
+    }
+    
     
     var body: some View {
+        
         HStack {
             Button {
                 
@@ -153,16 +175,26 @@ struct ActionButtons: View {
                     .background(Color("Turquoise"))
                     .cornerRadius(15)
                     .foregroundColor(.white)
+                    .font(.custom("Poppins", size: 15))
             }
-
-            NavigationLink(destination: NotationView(clickimage: "", llamaface: "")) {
+            
+//            Bouton qui donne acces à la vue Notation et qui remet 0 les notifications de la tapBar
+            
+            Button {
+                isNotationViewPresented = true
+                removeNotifActivity()
+                
+            } label:{
                 Text("Le voyage est terminé")
                     .frame(width: 150, height: 60)
                     .background(Color("AccentColor"))
                     .cornerRadius(15)
                     .foregroundColor(.white)
+                    .font(.custom("Poppins", size: 15))
             }
-            
+            .navigationDestination(isPresented: $isNotationViewPresented) {
+                NotationView(clickimage: "", llamaface: "")
+            }
         }
     }
 }
@@ -186,6 +218,7 @@ struct ChatBulle : View {
                 // espace minimum ...
                 Spacer(minLength: 25)
                 Text(msg.mssge)
+                    .font(.custom("Poppins", size: 15))
                     .padding(.all)
                     .background(Color.black.opacity(0.10))
                     .clipShape(BubbleArrow(myMsg: msg.myMsg))
@@ -251,7 +284,7 @@ class Messageries : ObservableObject {
 }
 
 #Preview {
-    MessagesView()
+    MessagesView(notificationActivity:.constant(1), notificationMessage: .constant(1))
 }
 
 

@@ -13,6 +13,7 @@ struct RoundedCornerBorderButton: View {
     var cornerRadius: CGFloat = 10
     var strokeColor: Color = .turquoise
     var lineWidth: CGFloat = 2
+    var textColor: Color = .black
     var action: () -> Void = { }
     
     var body: some View {
@@ -21,7 +22,7 @@ struct RoundedCornerBorderButton: View {
         } label: {
             Text(text)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .foregroundStyle(.black)
+                .foregroundStyle(textColor)
                 .padding()
                 .background(backgroundColor)
                 .clipShape(.rect(cornerRadius: cornerRadius))

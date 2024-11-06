@@ -28,13 +28,24 @@ struct ActivitiesTabView: View {
                         .clipShape(.rect(cornerRadius: 10))
                 }.padding(.bottom)
             }
+            .padding(.top)
         }
-        .padding(.top)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Image("LogoAmiGo")
                     .resizable()
                     .scaledToFit()
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    ReportAmiGoView()
+                } label: {
+                    Image("danger")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50)
+                }
+
             }
         }
     }

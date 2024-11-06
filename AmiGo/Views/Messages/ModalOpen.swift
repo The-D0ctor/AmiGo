@@ -11,7 +11,7 @@ struct ModalOpen: View {
     
     var body: some View {
             ZStack {
-                Color.white.ignoresSafeArea(edges: .top)
+                Color.offWhite.ignoresSafeArea(edges: .top)
                 VStack(alignment:.center){
                     Image(.logoAmiGo)
                     Spacer()
@@ -21,20 +21,17 @@ struct ModalOpen: View {
                             .frame(width: 300, height: 300)
                     }
                     
-                    
-        Text("Félicitations ta demande de amiGo à été aceptée")
-                        .font(.title2)
-                        .italic()
+                    Spacer()
+        Text("Félicitations ta demande d'AmiGO a été acceptée")
+                        .font(.custom("Poppins-italic", size: 20))
                         .frame(width: 300)
                         Spacer()
-                    Button("fermer") {
+                    Button("OK") {
                                    dismissModal1 = false
                                 }
-                              
-                    
-                    
-                    
-                    
+                    .foregroundStyle(.darkOrange)
+                        .font(.custom("Poppins-bold", size: 30))
+
                 }
             }
 

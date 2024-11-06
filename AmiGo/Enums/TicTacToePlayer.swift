@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TicTacToePlayer: String {
-    case playerOne = "xmark"
-    case playerTwo = "circle"
+struct TicTacToePlayer: Equatable {
+    var name: String
+    let image: String
 }

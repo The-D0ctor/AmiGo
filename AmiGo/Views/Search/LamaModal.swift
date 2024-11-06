@@ -14,6 +14,14 @@ struct LamaModal: View {
     var image: String
     var petitText:String = ""
     @Binding var dissmissModal : Bool
+    @Binding var notificationMessage: Int
+    @Binding var notificationSearch: Int
+    
+//    fonction qui ajoute une notif Message et qui enlève la notifSearch sur la tapBar
+    func notifMessage() {
+        notificationMessage = 1
+        notificationSearch = 0
+    }
     
     var body: some View {
         ZStack{
@@ -42,6 +50,7 @@ struct LamaModal: View {
                 
                 Button {
                     dissmissModal.toggle()
+                    notifMessage()
                 } label: {
                     Text("OK")
                         .foregroundStyle(.darkOrange)
@@ -53,5 +62,5 @@ struct LamaModal: View {
 }
 
 #Preview {
-    LamaModal(llama: "LlamaSmile", information: "Tu n'as pas encore trouvé ton AmiGO, choisis en 3 parmi la liste", image: "hand.rays", dissmissModal: .constant(true))
+    LamaModal(llama: "LlamaSmile", information: "Tu n'as pas encore trouvé ton AmiGO, choisis en 3 parmi la liste", image: "hand.rays", dissmissModal: .constant(true), notificationMessage: .constant(1), notificationSearch: .constant(0))
 }

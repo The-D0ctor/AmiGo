@@ -35,13 +35,6 @@ struct RiddlesListView: View {
                         .padding(30)
                 }
             }
-            /*.onChange(of: random) {
-                print(random)
-                if random {
-                    showModal = true
-                    random = false
-                }
-            }*/
         }
     }
 }

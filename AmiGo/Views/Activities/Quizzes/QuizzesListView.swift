@@ -17,7 +17,7 @@ struct QuizzesListView: View {
         ScrollView {
             VStack {
                 ForEach(quizzes) { quizz in
-                    RoundedCornerBorderButton(text: quizz.theme, backgroundColor: quizz.color) {
+                    RoundedCornerBorderButton(text: quizz.theme, backgroundColor: quizz.color, textColor: .white) {
                         selectedQuizz = quizz
                         showModal = true
                     }

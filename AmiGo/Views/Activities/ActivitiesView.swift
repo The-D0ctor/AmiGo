@@ -2,7 +2,7 @@
 //  ActivitiesView.swift
 //  AmiGo
 //
-//  Created by Sébastien Rochelet on 28/10/2024.
+//  Created by Jules Thénier on 28/10/2024.
 //
 
 import SwiftUI
@@ -24,10 +24,11 @@ struct ActivitiesView: View {
             ZStack {
                 Color.offWhite.ignoresSafeArea(edges: .top)
                 VStack {
-                    //VStack pour les 4 Bouttons
+                    //VStack composée de 2 HStack pour les 4 Bouttons
                     VStack {
                         
                         HStack {
+                            //chacun des boutons étant en ExtractView avec les paramètres adéquates
                             BouttonJeuxExtractedView(activite: .riddle, imageLamaBoutton: "LlamaRiddle", jeuColor: .creme)
                             BouttonJeuxExtractedView(activite: .quizz, imageLamaBoutton: "LlamaQuizz", jeuColor: .lightTurquoise)
                         }
@@ -37,8 +38,7 @@ struct ActivitiesView: View {
                             BouttonJeuxExtractedView(activite: .subjectConv, imageLamaBoutton: "LlamaConv", jeuColor: .creme)
                         }
                         .padding(.horizontal, 5)
-                        //BOUTTON POUR Laisser Alpago choisir
-                        
+                        //BOUTTON POUR Laisser Alpago choisir en .random en passant par un path
                         Button {
                             random = true
                             path.append(Activity.allCases.randomElement()!)
@@ -56,7 +56,6 @@ struct ActivitiesView: View {
                                     .cornerRadius(10)
                                     .frame(width: 200, height: 120)
                                     .shadow(radius: 8, x: 8, y: 8)
-                                
                             }
                         }
                         AideLama(textAide: "Amuse-toi avec ton AmiGo", bulleAide: bulleAide, imageLamaBoutton: "LlamaSunglasses")
@@ -69,12 +68,23 @@ struct ActivitiesView: View {
                     ActivitiesTabView(selectedActivity: activity, random: $random)
                 }
             }
-            //.padding(.top, 40)
             .toolbar {
                 ToolbarItem(placement: .principal) {
+                    //placement du logo AmiGO en haut
                     Image("LogoAmiGo")
                         .resizable()
                         .scaledToFit()
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        ReportAmiGoView()
+                    } label: {
+                        Image("danger")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50)
+                    }
+
                 }
             }
             .navigationTitle("Activités")
@@ -85,36 +95,31 @@ struct ActivitiesView: View {
 #Preview {
     ActivitiesView()
 }
-
+//L'extraction de vue du bouton
 struct BouttonJeuxExtractedView: View {
     
     @State var activite: Activity
     @State var imageLamaBoutton: String
     @State var jeuColor: Color
     
-    var body: some View {
+var body: some View {
         NavigationLink(value: activite) {
             ZStack{
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color(jeuColor))
                     .shadow(radius: 5, x: 10, y: 10)
-                   // .opacity(0.5)
-                // .frame(width: 180, height: 170)
-                
+                  
                 VStack(spacing: 0) {
-                    
                     Text(activite.rawValue)
                         .font(.custom("Poppins", size: 20))
                         .foregroundStyle(.white)
+                        .fontWeight(.bold)
                     Image(imageLamaBoutton)
                         .resizable()
                         .scaledToFit()
                         .padding([.horizontal, .bottom], 5)
                 }
-                
             }
-            
-            
         }
     }
 }

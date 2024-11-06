@@ -65,7 +65,7 @@ struct NotationView: View {
                     Spacer()
                     
                     NavigationLink {
-                        SwiftUIView_Lama5()
+                        ReportAmiGoView()
                     } label: {
                         Text("Signaler cet Amigo ?")
                             .font(.custom("Poppins", size: 18))

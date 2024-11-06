@@ -8,7 +8,7 @@
 import Foundation
 
 enum Activity: String, Hashable, CaseIterable {
-    case riddle = "Charades"
+    case riddle = "Devinettes"
     case quizz = "Quizz"
     case game = "Jeux"
     case subjectConv = "Sujets"

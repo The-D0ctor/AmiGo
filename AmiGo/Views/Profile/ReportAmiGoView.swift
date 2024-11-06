@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SwiftUIView_Lama5: View {
+struct ReportAmiGoView: View {
     var body: some View {
         
         ZStack {
@@ -29,7 +29,7 @@ struct SwiftUIView_Lama5: View {
                 Spacer()
             HStack{
                 
-                NavigationLink (destination : SwiftUIViewTextLama()) {
+                NavigationLink (destination : ReportExperienceView()) {
                     Text("Oui")
                 }
             .frame(width: 100, height: 50)
@@ -52,7 +52,7 @@ struct SwiftUIView_Lama5: View {
         }
      }
     #Preview {
-        NavigationStack { SwiftUIView_Lama5()
+        NavigationStack { ReportAmiGoView()
         }
     }
 

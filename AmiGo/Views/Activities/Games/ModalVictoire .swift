@@ -15,16 +15,24 @@ struct ModalVictoire: View {
     @Binding var scoreAmiGO2 : Int
     
     var body: some View {
+        
         ZStack{
             Color.offWhite.ignoresSafeArea()
+            
             VStack(spacing: 40){
+                
                 Text("\(winner) a gagné la partie !")
                     .font(.custom("Poppins-bold", size: 24))
+                
                 Image("VictoireAmigo")
+                
+//                Bouton qui permet de fermer la modale, de rejouer la partie et de remettre les scores à 0
+                
                 Button {
                     dissmissModal.toggle()
                     scoreAmiGO1 = 0
                     scoreAmiGO2 = 0
+                    
                 } label: {
                     Text("Rejouer")
                         .padding()

@@ -17,24 +17,24 @@ struct ProfileView: View {
                         
                         VStack {
                             Text ("Ton AmiGo")
-                                .font(.title)
+                                .font(.custom("Poppins", size: 25))
                                 .bold()
                             Image(.myAvatar3)
                                 .resizable()
                                 .scaledToFit()
                                 .clipShape(Circle())
                             Text("Camille")
-                                .font(.title2)
+                                .font(.custom("Poppins", size: 18))
                                 .italic()
                             
                             Text("Hobbies: Sport , Voyages")
-                            
+                                .font(.custom("Poppins", size: 16))
                                 .bold()
                             Text("Nombre de trajets: 5")
-                            
+                                .font(.custom("Poppins", size: 16))
                                 .bold()
                             Text("Stations préférés: \nSaint Lazare - La Muette")
-                            
+                                .font(.custom("Poppins", size: 16))
                                 .bold()
                                 .foregroundColor(Color.darkOrange)
                                 .multilineTextAlignment(.center)
@@ -109,12 +109,24 @@ struct ProfileView: View {
                 }
                     .padding(.top)
             }
+            .navigationTitle("Profil")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Image("LogoAmiGo")
                         .resizable()
                         .scaledToFit()
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        ReportAmiGoView()
+                    } label: {
+                        Image("danger")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50)
+                    }
+
                 }
             }
         }

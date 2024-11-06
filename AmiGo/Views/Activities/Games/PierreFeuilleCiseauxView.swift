@@ -17,10 +17,17 @@ struct PierreFeuilleCiseauxView: View {
     @State var showModal = false
     @State var winner = ""
     @State var result: String = "C'est parti!"
+    @State var nomAmiGO1: String = "Camille"
+    @State var nomAmiGO2: String = "Jules"
+    
+    
+//    fonction pour générer un choix au hasard pour chaque amigo
     
     func generateChoice() -> String {
         return choix.randomElement()!
     }
+    
+//    fonction qui donne le resultat de la manche dans le texte bleu au milieu
     
     func resultat () {
         result =
@@ -30,12 +37,13 @@ struct PierreFeuilleCiseauxView: View {
         else if amiGO1 == amiGO2 {
             "Egalité"
         }else if amiGO1 == "✊" && amiGO2 == "👋" || amiGO1 == "👋" && amiGO2 == "✌️" || amiGO1 == "✌️" && amiGO2 == "✊" {
-            " Bravo AmiGO 2 !"
+            " Bravo \(nomAmiGO1) !"
         } else {
-            " Bravo AmiGO 1 ! "
+            " Bravo \(nomAmiGO2) ! "
         }
     }
     
+//    fonction qui sert a incrémenter les scores selon le gagnant de la manche
     func score () {
     
         if amiGO1 == amiGO2 {
@@ -46,16 +54,20 @@ struct PierreFeuilleCiseauxView: View {
         }
     }
     
+//    fonction qui sert a donner le nom du gagnant de chaque partie et d'afficher la modale de Victoire. Pour gagner 1 partie il faut gagner 3 manches.
+    
     func decideWinner () {
         if scoreAmiGO1 == 3{
-            winner = "AmiGO 1"
+            winner = nomAmiGO1
             showModal.toggle()
         }
         else if scoreAmiGO2 == 3{
-            winner = "AmiGO 2"
+            winner = nomAmiGO2
             showModal.toggle()
         }
     }
+    
+//    fonction qui sert a lancer le jeu dans le bouton Jouer qui prend en compte les choix des joueurs, l'incrémentation du score, le nom du gagnant et l'affichage du resultat dans le texte bleu au milieu
     
     func lancerJeu() {
         amiGO1 = generateChoice()
@@ -73,8 +85,7 @@ struct PierreFeuilleCiseauxView: View {
             VStack (spacing:30){
                 
                 VStack{
-                    
-                    Text(" AmiGO 1 \rscore : \(scoreAmiGO1)")
+                    Text(" \(nomAmiGO1) \rscore : \(scoreAmiGO1)")
                         .font(.custom("Poppins", size: 22))
                     Text(amiGO1)
                         .padding()
@@ -95,9 +106,10 @@ struct PierreFeuilleCiseauxView: View {
                         .font(.custom("Poppins-bold", size: 70))
                         .animation(.easeInOut, value: amiGO2)
                         .frame(width: 100, height: 100)
-                    Text(" AmiGO 2 \rscore : \(scoreAmiGO2)")
+                    Text(" \(nomAmiGO2) \rscore : \(scoreAmiGO2)")
                         .font(.custom("Poppins", size: 22))
                 }
+//                bouton Jouer qui prend en compte les choix des joueurs, l'incrémentation du score, le nom du gagnant et l'affichage du resultat dans le texte bleu au milieu
                 
                 Button {
                     lancerJeu()
@@ -114,6 +126,19 @@ struct PierreFeuilleCiseauxView: View {
             }
         }
         .sheet(isPresented: $showModal) {ModalVictoire(dissmissModal: $showModal, winner: $winner, scoreAmiGO1: $scoreAmiGO1, scoreAmiGO2: $scoreAmiGO2)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    ReportAmiGoView()
+                } label: {
+                    Image("danger")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50)
+                }
+
+            }
         }
     }
     

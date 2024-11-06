@@ -11,6 +11,13 @@ struct SearchView: View {
     
     @State var departureStation: String = ""
     @State var arrivalStation: String = ""
+    @State var isSearchViewResultPresented: Bool = false
+    @Binding var notificationSearch: Int
+    @Binding var notificationMessage: Int
+    
+    func notifSearch() {
+        notificationSearch = 1
+    }
     
     var body: some View {
         
@@ -36,10 +43,15 @@ struct SearchView: View {
                         
                     }.padding()
                     
+//bouton Go qui donne acces la page SearchViewResults + qui donne la notif Search sur la tapBar :
                     
-                    NavigationLink(destination: SearchResultView(departureStation:$departureStation , arrivalStation: $arrivalStation, bulleAide: true)) {
-                        Text("Go")
+                    Button {
+
+                        isSearchViewResultPresented = true
+                        notifSearch()
                         
+                    } label:{
+                        Text("Go")
                     }
                     .padding()
                     .foregroundStyle(Color.white)
@@ -57,6 +69,9 @@ struct SearchView: View {
                 }.padding()
                 
             }
+            .navigationDestination(isPresented: $isSearchViewResultPresented, destination: {
+                SearchResultView(departureStation:$departureStation , arrivalStation: $arrivalStation, bulleAide: true, notificationMessage: $notificationMessage, notificationSearch: $notificationSearch)
+            })
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Image("LogoAmiGo")
@@ -72,8 +87,10 @@ struct SearchView: View {
 
 
 #Preview {
-    SearchView()
+    SearchView(notificationSearch: .constant(1), notificationMessage: .constant(1))
 }
+
+//Vue extraite des textfields qui sont stockés dans la variable station 2
 
 struct ExtractedTextField: View {
     
@@ -84,6 +101,7 @@ struct ExtractedTextField: View {
         
         TextField(departArrivee, text: $station2)
             .padding()
+            .font(.custom("Poppins", size: 18))
             .frame(width:350, height :30 )
             .background(.white)
             .overlay(
