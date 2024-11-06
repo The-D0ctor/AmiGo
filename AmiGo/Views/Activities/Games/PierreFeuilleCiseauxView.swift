@@ -37,9 +37,9 @@ struct PierreFeuilleCiseauxView: View {
         else if amiGO1 == amiGO2 {
             "Egalité"
         }else if amiGO1 == "✊" && amiGO2 == "👋" || amiGO1 == "👋" && amiGO2 == "✌️" || amiGO1 == "✌️" && amiGO2 == "✊" {
-            " Bravo \(nomAmiGO1) !"
+            " Bravo \(nomAmiGO2) !"
         } else {
-            " Bravo \(nomAmiGO2) ! "
+            " Bravo \(nomAmiGO1) ! "
         }
     }
     
