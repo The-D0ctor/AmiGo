@@ -23,7 +23,7 @@ struct ProfileView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .clipShape(Circle())
-                            Text("Camille")
+                            Text("Karla")
                                 .font(.custom("Poppins", size: 18))
                                 .italic()
                             

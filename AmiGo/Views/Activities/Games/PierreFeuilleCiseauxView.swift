@@ -17,7 +17,7 @@ struct PierreFeuilleCiseauxView: View {
     @State var showModal = false
     @State var winner = ""
     @State var result: String = "C'est parti!"
-    @State var nomAmiGO1: String = "Camille"
+    @State var nomAmiGO1: String = "Karla"
     @State var nomAmiGO2: String = "Jules"
     
     

@@ -20,7 +20,7 @@ struct TicTacToeView: View {
         ]
     ]
     
-    let playerOne = TicTacToePlayer(name: "Camille", image: "Player1")
+    let playerOne = TicTacToePlayer(name: "Karla", image: "Player1")
     let playerTwo = TicTacToePlayer(name: "Jules", image: "Player2")
     
     @State var player: TicTacToePlayer

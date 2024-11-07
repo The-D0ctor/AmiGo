@@ -31,7 +31,7 @@ struct NotationView: View {
                 Spacer()
                 
                 
-                Image(.myAvatar)
+                Image(.myAvatar8)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 180, height: 180) // Ajuste la taille de l'image
@@ -39,7 +39,7 @@ struct NotationView: View {
                 Spacer()
                 
                 
-                Text("Comment s'est passé ton expérience ?")
+                Text("Comment s'est passée ton expérience ?")
                     .font(.custom("Poppins", size: 25))
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
