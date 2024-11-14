@@ -171,7 +171,7 @@ struct ActionButtons: View {
                 
             } label: {
                 Text("Bravo tu as retrouvé ton amigo")
-                    .frame(width: 150, height: 60)
+                    .frame(width: 170, height: 60)
                     .background(Color("Turquoise"))
                     .cornerRadius(15)
                     .foregroundColor(.white)
